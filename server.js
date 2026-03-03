@@ -9,7 +9,9 @@ app.use(express.json());
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
+app.get("/", (req, res) => {
+  res.send("Naty está viva 😈");
+});
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
