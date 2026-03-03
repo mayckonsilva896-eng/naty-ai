@@ -33,7 +33,30 @@ app.post("/chat", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+app.post("/generate-image", async (req, res) => {
+  const { prompt } = req.body;
 
+  try {
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/Lykon/DreamShaper",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.HF_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputs: prompt }),
+      }
+    );
+
+    const arrayBuffer = await response.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString("base64");
+
+    res.json({ image: `data:image/png;base64,${base64}` });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao gerar imagem" });
+  }
+});
 app.listen(PORT, () => {
   console.log("Servidor rodando");
 });
