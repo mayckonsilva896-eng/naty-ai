@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Naty 💕</title>
+</head>
+<body style="background:#111;color:white;text-align:center;font-family:Arial">
+
+  <h1>Naty 💕</h1>
+
+  <div id="chat"></div>
+
+  <input id="input" placeholder="Fale com ela..." />
+  <button onclick="send()">Enviar</button>
+
+  <script>
+    async function send() {
+      const message = document.getElementById("input").value;
+
+      const response = await fetch("/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await response.json();
+
+      document.getElementById("chat").innerHTML += 
+        "<p><b>Você:</b> " + message + "</p>" +
+        "<p><b>Naty:</b> " + data.reply + "</p>";
+
+      document.getElementById("input").value = "";
+    }
+  </script>
+
+</body>
+</html>
