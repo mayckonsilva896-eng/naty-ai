@@ -57,6 +57,12 @@ app.post("/generate-image", async (req, res) => {
     res.status(500).json({ error: "Erro ao gerar imagem" });
   }
 });
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Servidor rodando");
+});
+
 app.listen(PORT, () => {
   console.log("Servidor rodando");
 });
